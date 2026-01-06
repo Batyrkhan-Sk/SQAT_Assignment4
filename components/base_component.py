@@ -9,13 +9,9 @@ class BaseComponent:
         self.wait = WebDriverWait(driver, timeout)
 
     def find(self, locator):
-        try:
-            if self.root:
-                return self.root.find_element(*locator)
-            return self.wait.until(EC.presence_of_element_located(locator))
-        except TimeoutException:
-            print(f"Element not found: {locator}")
-            raise
+        if self.root:
+            return self.root.find_element(*locator)
+        return self.wait.until(EC.presence_of_element_located(locator))
 
     def click(self, locator):
         element = self.wait.until(EC.element_to_be_clickable(locator))
